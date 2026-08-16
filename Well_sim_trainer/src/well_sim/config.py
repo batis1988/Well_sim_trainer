@@ -58,3 +58,23 @@ DEFAULT_CONFIG = {
     "inflow": InflowConfig(),
     "outflow": OutflowConfig()
 }
+
+@dataclass
+class ChokeConfig:
+    """Настройки модели штуцера"""
+    CORRELATION: str = "gilbert"      # Выбор корреляции из constants.CHOKE_CORRELATIONS
+    CRITICAL_RATIO: float = 0.55      # Критическое отношение P_down/P_up (k≈1.2-1.3)
+    MIN_GOR_SCF_STB: float = 50.0     # Пол корреляции (ниже — корреляции нестабильны)
+
+# В OutflowConfig добавьте свойства воды:
+    WATER_FVF: float = 1.0                # Bw ≈ 1.0 rb/stb
+    WATER_DENSITY_LB_FT3: float = 65.0    # Пластовая вода (минерализованная)
+    WATER_VISCOSITY_CP: float = 0.5       # Вязкость воды
+
+# В DEFAULT_CONFIG добавьте:
+DEFAULT_CONFIG = {
+    "pvt": PVTConfig(),
+    "inflow": InflowConfig(),
+    "outflow": OutflowConfig(),
+    "choke": ChokeConfig(),   # <-- НОВОЕ
+}
